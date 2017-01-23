@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<odoo>
+  <!-- Add Kanban view mode to the menu Action: -->
+  <act_window id="todo_app.action_todo_task" name="To-Do Tasks"
+    res_model="todo.task" view_mode="kanban,tree,form,calendar,graph,pivot"
+    context="{'search_default_filter_my_tasks': True}" />
+  <!-- Add Kanban view -->
+  <record id="To-do Task Kanban" model="ir.ui.view">
+    <field name="model">todo.task</field>
+    <field name="arch" type="xml">
+      <kanban default_group_by="stage_id" class="o_kanban_small_column" >
+        <!-- Fields to use in expressions... -->
+        <field name="stage_id" />
+        <field name="color" />
+        <field name="kanban_state" />
+        <field name="priority" />
+        <field name="is_done" />
+        <field name="message_partner_ids" />
+        <!-- (...add other used fields). -->
+        <templates>
+          <!-- Define the kanban-box template -->
+          <t t-name="kanban-box">
+            <!-- Set the Kanban Card color: -->
+            <div t-attf-class="#{kanban_color(record.color.raw_value)} oe_kanban_global_click">
+              <div class="o_dropdown_kanban dropdown">
+                <!-- Top-right drop down menu here... -->
+              </div>
+              <div class="oe_kanban_content">
+                <div>
+                  <field name="tag_ids" />
+                </div>
+                <div>
+                  <strong>
+                    <a type="open"><field name="name" /></a>
+                  </strong>
+                </div>
+                <ul>
+                  <li><field name="user_id" /></li>
+                  <li><field name="date_deadline" /></li>
+                </ul>
+                <div class="oe_kanban_footer">
+                  <div>
+                    <!-- Left hand footer... -->
+                    <field name="priority" widget="priority"/>
+                  </div>
+                  <div>
+                    <!-- Right hand footer... -->
+                    <field name="kanban_state" widget="kanban_state_selection"/>
+                    <img t-att- t-att-src="kanban_image('res.users', 'image_small', record.user_id.raw_value)" 
+                      width="24" height="24" 
+                      class="oe_kanban_avatar pull-right" />
+                  </div>
+                </div>
+              </div> <!-- oe_kanban_content -->
+              <div class="oe_clear"/>
+            </div> <!-- kanban color -->
+          </t>
+        </templates>
+      </kanban>
+    </field>
+  </record>
+</odoo>
