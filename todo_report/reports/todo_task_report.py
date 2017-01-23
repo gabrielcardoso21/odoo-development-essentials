@@ -6,7 +6,7 @@ class TodoReport(models.Model):
     _name = 'todo.task.report'
     _description = 'To-do Report'
     _sql = """
-        CREATE OR REPLACE VIEW todo_task_report AS
+        CREATE OR REPLACE VIEW todo_report AS
         SELECT *
         FROM todo_task
         WHERE active = True

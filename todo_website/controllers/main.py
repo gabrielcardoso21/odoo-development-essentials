@@ -13,16 +13,16 @@ class Todo(http.Controller):
     def hello(self, **kwargs):
         return request.render('todo_website.hello')
 
-    @http.route('/hellocms/<page>', auth='public')
+    @http.route('/hellocms/<page>', auth='public', website=True)
     def hellocms(self, page, **kwargs):
+        page = '.'.join(['todo_website', page])
         return request.render(page)
 
-    @http.route('/todo', auth='user' , website=True)
-    def index(self, **kwargs):
+    @http.route('/todo/', auth='user', website=True)
+    def todo_view(self, **kwargs):
         TodoTask = request.env['todo.task']
         tasks = TodoTask.search([])
-        return request.render(
-            'todo_website.index', {'tasks': tasks})
+        return request.render('todo_website.index', {'tasks': tasks})
 
     @http.route('/todo/<model("todo.task"):task>', website=True)
     def index(self, task, **kwargs):
